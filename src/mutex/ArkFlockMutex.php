@@ -13,7 +13,7 @@ use Exception;
 use sinri\ark\lock\util\Loop;
 use sinri\ark\lock\util\PcntlTimeout;
 
-class ArkFlockMutex
+class ArkFlockMutex extends ArkLockMutex
 {
     const INFINITE_TIMEOUT = -1;
     /**
@@ -44,17 +44,20 @@ class ArkFlockMutex
     /**
      * Sets the file handle.
      *
-     * @param resource $fileHandle The file handle.
+     * @param string $file The file handle.
      * @param int $timeout
      */
-    public function __construct($fileHandle, $timeout = self::INFINITE_TIMEOUT)
+    public function __construct($file, $timeout = self::INFINITE_TIMEOUT)
     {
+        $fileHandle = fopen($file, "w+");
         if (!is_resource($fileHandle)) {
             throw new \InvalidArgumentException("The file handle is not a valid resource.");
         }
         $this->fileHandle = $fileHandle;
         $this->timeout = $timeout;
         $this->strategy = $this->determineLockingStrategy();
+
+        $this->setMutexName($file);
     }
 
     private function determineLockingStrategy()

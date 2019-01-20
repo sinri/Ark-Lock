@@ -9,11 +9,9 @@
 namespace sinri\ark\lock\mutex;
 
 
-use Mutex;
-
-class ArkDummyMutex extends Mutex
+class ArkDummyMutex extends ArkAbstractMutex
 {
-    public function synchronized(callable $code)
+    public function synchronized($code)
     {
         return call_user_func_array($code, []);
     }

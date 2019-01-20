@@ -49,7 +49,7 @@ final class PcntlTimeout
      *
      * @throws Exception Running the code hit the deadline or Installing the timeout failed
      */
-    public function timeBoxed(callable $code)
+    public function timeBoxed($code)
     {
         $existingHandler = pcntl_signal_get_handler(SIGALRM);
         $signal = pcntl_signal(SIGALRM, function () {
@@ -63,7 +63,7 @@ final class PcntlTimeout
             throw new Exception("Existing alarm was not expected");
         }
         try {
-            return $code();
+            return call_user_func_array($code, []);
         } finally {
             pcntl_alarm(0);
             pcntl_signal_dispatch();

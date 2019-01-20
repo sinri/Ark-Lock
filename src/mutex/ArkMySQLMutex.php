@@ -20,10 +20,6 @@ class ArkMySQLMutex extends ArkLockMutex
     private $pdo;
 
     /**
-     * @var string
-     */
-    private $name;
-    /**
      * @var int
      */
     private $timeout;
@@ -34,7 +30,7 @@ class ArkMySQLMutex extends ArkLockMutex
      * @param string $name
      * @param int $timeout
      */
-    public function __construct($PDO, $name, $timeout = 0)
+    public function __construct($PDO, $name, $timeout = 5)
     {
         $this->pdo = $PDO;
 
@@ -42,7 +38,7 @@ class ArkMySQLMutex extends ArkLockMutex
             throw new \InvalidArgumentException("The maximum length of the lock name is 64 characters.");
         }
 
-        $this->name = $name;
+        $this->mutexName = $name;
         $this->timeout = $timeout;
     }
 
@@ -55,7 +51,7 @@ class ArkMySQLMutex extends ArkLockMutex
         $statement = $this->pdo->prepare("SELECT GET_LOCK(?,?)");
 
         $statement->execute([
-            $this->name,
+            $this->mutexName,
             $this->timeout,
         ]);
 
@@ -86,7 +82,7 @@ class ArkMySQLMutex extends ArkLockMutex
     {
         $statement = $this->pdo->prepare("DO RELEASE_LOCK(?)");
         $statement->execute([
-            $this->name
+            $this->mutexName
         ]);
     }
 }
