@@ -38,8 +38,8 @@ for ($i = 0; $i < 5; $i++) {
             sleep($sleepTime);
             echo time() . "[$myPid] now " . read() . PHP_EOL;
         });
-        echo time() . "[$myPid] success[$i]=" . json_encode($lock->getSuccessLocking()) . PHP_EOL;
-        if (!$lock->getSuccessLocking()) {
+        echo time() . "[$myPid] success[$i]=" . json_encode($lock->isSuccessLocking()) . PHP_EOL;
+        if (!$lock->isSuccessLocking()) {
             if ($lock->getExceptionToLock())
                 echo time() . "[$myPid] getExceptionToLock " . $lock->getExceptionToLock()->getMessage() . PHP_EOL;
             if ($lock->getExceptionToExecute())

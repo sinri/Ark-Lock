@@ -2,15 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: sinri
- * Date: 2019-01-20
- * Time: 19:00
+ * Date: 2019-01-22
+ * Time: 00:42
  */
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 clear();
 
-$lockFilePath = __DIR__ . '/../debug/lock-file';
+$lockFilePath_1 = __DIR__ . '/../debug/lock-file-1';
+$lockFilePath_2 = __DIR__ . '/../debug/lock-file-2';
 
 for ($i = 0; $i < 5; $i++) {
     $pid = pcntl_fork();
@@ -24,7 +25,7 @@ for ($i = 0; $i < 5; $i++) {
         // child
         $myPid = getmypid();
         echo "JOB [$i][$myPid] STARTED" . PHP_EOL;
-        $lock = new \sinri\ark\lock\mutex\ArkFlockMutex($lockFilePath);
+        $lock = new \sinri\ark\lock\multimutex\ArkMultiFlock([$lockFilePath_1, $lockFilePath_2]);
         $lock->synchronized(function () {
             $myPid = getmypid();
             add();

@@ -2,16 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: sinri
- * Date: 2019-01-19
- * Time: 23:01
+ * Date: 2019-01-22
+ * Time: 00:23
  */
 
-namespace sinri\ark\lock\mutex;
+namespace sinri\ark\lock\multimutex;
 
 
 use Exception;
 
-class ArkMySQLMutex extends ArkLockMutex
+class ArkMultiMySQLLock extends ArkAbstractMultiLock
 {
 
     /**
@@ -27,31 +27,34 @@ class ArkMySQLMutex extends ArkLockMutex
     /**
      * ArkMySQLMutex constructor.
      * @param \PDO $PDO
-     * @param string $name
+     * @param string[] $names
      * @param int $timeout
      */
-    public function __construct($PDO, $name, $timeout = 5)
+    public function __construct($PDO, $names, $timeout = 5)
     {
         $this->pdo = $PDO;
 
-        if (strlen($name) > 64) {
-            throw new \InvalidArgumentException("The maximum length of the lock name is 64 characters.");
+        foreach ($names as $name) {
+            if (strlen($name) > 64) {
+                throw new \InvalidArgumentException("The maximum length of the lock name is 64 characters.");
+            }
         }
 
-        $this->mutexName = $name;
+        $this->mutexes = $names;
         $this->timeout = $timeout;
     }
 
     /**
+     * @param $mutexName
      * @return void
      * @throws Exception
      */
-    public function lock()
+    public function lock($mutexName)
     {
         $statement = $this->pdo->prepare("SELECT GET_LOCK(?,?)");
 
         $statement->execute([
-            $this->mutexName,
+            $mutexName,
             $this->timeout,
         ]);
 
@@ -69,20 +72,21 @@ class ArkMySQLMutex extends ArkLockMutex
             /*
              *  NULL if an error occurred (such as running out of memory or the thread was killed with mysqladmin kill).
              */
-            throw new Exception("An error occurred while acquiring the lock");
+            throw new Exception("An error occurred while acquiring the lock of $mutexName");
         }
 
-        throw new Exception("Timeout of {$this->timeout} seconds exceeded.");
+        throw new Exception("Timeout of {$this->timeout} seconds exceeded for lock $mutexName.");
     }
 
     /**
+     * @param $mutexName
      * @return void
      */
-    public function unlock()
+    public function unlock($mutexName)
     {
         $statement = $this->pdo->prepare("DO RELEASE_LOCK(?)");
         $statement->execute([
-            $this->mutexName
+            $mutexName
         ]);
     }
 }

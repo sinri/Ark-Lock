@@ -10,7 +10,11 @@
     }
   ],
   "minimum-stability": "stable",
-  "require": {},
+  "require": {
+  },
+  "require-dev": {
+    "ext-pdo": "*"
+  },
   "autoload": {
     "psr-4": {
       "sinri\\ark\\lock\\": "src/"

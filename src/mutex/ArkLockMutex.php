@@ -33,7 +33,7 @@ abstract class ArkLockMutex extends ArkAbstractMutex
     /**
      * @return bool
      */
-    public function getSuccessLocking()
+    public function isSuccessLocking()
     {
         return $this->successLocking;
     }
