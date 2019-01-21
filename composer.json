@@ -1,0 +1,24 @@
+{
+  "name": "sinri/ark-lock",
+  "description": "Lock service in parallel environment",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sinri Edogawa",
+      "email": "e.joshua.s.e@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "sinri\\ark\\lock\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "sinri\\ark\\lock\\test\\": "test/"
+    }
+  }
+}
