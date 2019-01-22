@@ -104,7 +104,7 @@ abstract class ArkLockMutex extends ArkAbstractMutex
      * @throws Exception The lock could not be acquired.
      * @return void
      */
-    abstract protected function lock();
+    abstract public function lock();
 
     /**
      * Releases the lock.
@@ -112,6 +112,6 @@ abstract class ArkLockMutex extends ArkAbstractMutex
      * @throws Exception The lock could not be released.
      * @return void
      */
-    abstract protected function unlock();
+    abstract public function unlock();
 
 }

@@ -75,7 +75,7 @@ class ArkFlockMutex extends ArkLockMutex
      * @return void
      * @throws Exception
      */
-    protected function lock()
+    public function lock()
     {
         switch ($this->strategy) {
             case self::STRATEGY_BLOCK:
@@ -155,7 +155,7 @@ class ArkFlockMutex extends ArkLockMutex
      * @return void
      * @throws Exception
      */
-    protected function unlock()
+    public function unlock()
     {
         if (!flock($this->fileHandle, LOCK_UN)) {
             throw new Exception("Failed to unlock the file.");

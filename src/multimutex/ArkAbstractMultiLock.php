@@ -91,7 +91,7 @@ abstract class ArkAbstractMultiLock extends ArkAbstractMultiMutex
      * Lock, or throw fail exception
      * @return bool
      */
-    final protected function pushAllLocks()
+    final public function pushAllLocks()
     {
         $mutexes = $this->getMutexes();
         try {
@@ -107,13 +107,13 @@ abstract class ArkAbstractMultiLock extends ArkAbstractMultiMutex
         }
     }
 
-    abstract protected function lock($mutexName);
+    abstract public function lock($mutexName);
 
     /**
      * If all unlocked, return true
      * @return bool
      */
-    final protected function popAllLocks()
+    final public function popAllLocks()
     {
         while (!empty($this->lockStack)) {
             try {
@@ -126,5 +126,5 @@ abstract class ArkAbstractMultiLock extends ArkAbstractMultiMutex
         return empty($this->unlockExceptions);
     }
 
-    abstract protected function unlock($mutexName);
+    abstract public function unlock($mutexName);
 }

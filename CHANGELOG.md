@@ -1,5 +1,9 @@
 # Ark-Lock
 
+## 0.4
+
+Let Multi-Lock support single
+
 ## 0.3
 
 Multi-Mutex-Lock Support
