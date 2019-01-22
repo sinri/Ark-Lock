@@ -66,7 +66,6 @@ abstract class ArkAbstractMultiLock extends ArkAbstractMultiMutex
     /**
      * @param callable $code
      * @return mixed|null whatever the callable code returns, or null for not done
-     * @throws \Exception
      */
     public function synchronized($code)
     {
